@@ -8,6 +8,8 @@ import pickle
 DATADIR = "C:/Users/black/Desktop/Uni Work/2018/Sem 2/NIC/Assignment 2/kagglecatsanddogs_3367a/PetImages"
 CATEGORIES = ["DOG", "CAT"]
 
+IMG_SIZE = 200
+
 ##for category in CATEGORIES:
 ##    path = os.path.join(DATADIR, category)
 ##    for img in os.listdir(path):
@@ -29,7 +31,7 @@ def create_training_data():
                 #for create_training_data.IMG_SIZE in range(50, 300, 50):
                 #add IMG_ARRAY x IMg_ARRAY below and save the pickle file as X.IMG_ARRAY.pickle
                 #then in the CNN file do the for loop for opening each file and making the net.
-                new_array = cv2.resize(img_array,(50, 50))
+                new_array = cv2.resize(img_array,(IMG_SIZE, IMG_SIZE))
                 training_data.append([new_array, class_num])
             except Exception as e:
                 pass
@@ -50,19 +52,19 @@ for features, label in training_data:
     X.append(features) #cant pass a list to the neural network, X has to be a numpy array
     y.append(label)
 
-X = np.array(X).reshape(-1, 50, 50, 1) #-1 is any number +1 = grayscale
+X = np.array(X).reshape(-1, IMG_SIZE, IMG_SIZE, 1) #-1 is any number, imgage size, +1 = grayscale
 
 #save your data so you dont have to rebuild it everytime.
-pickle_out = open("X.pickle", 'wb')
+pickle_out = open("X"+str(IMG_SIZE)+".pickle", 'wb')
 pickle.dump(X, pickle_out)
 pickle_out.close()
 
-pickle_out = open("y.pickle", 'wb')
+pickle_out = open("y"+str(IMG_SIZE)+".pickle", 'wb')
 pickle.dump(y, pickle_out)
 pickle_out.close()
 
 #load data back 
-pickle_in = open('X.pickle', 'rb')
+pickle_in = open('X'+str(IMG_SIZE)+'.pickle', 'rb')
 X = pickle.load(pickle_in)
 
 X[1]
