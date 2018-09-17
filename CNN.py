@@ -1,9 +1,10 @@
 import tensorflow as tf
 from tensorflow.python.keras._impl.keras.models import Sequential
 from tensorflow.python.keras._impl.keras.layers import Dense, Dropout, Activation, Flatten, Conv2D, MaxPooling2D
+from matplotlib import pyplot
 import pickle
 
-for file in range (50,100,50):
+for file in range (200,250,50):
     X = pickle.load(open("X"+str(file)+".pickle", "rb"))
     y = pickle.load(open('y'+str(file)+'.pickle', 'rb'))
 
@@ -31,6 +32,25 @@ for file in range (50,100,50):
 
     model.compile(loss='binary_crossentropy',
                   optimizer='adam',
-                  metrics=['accuracy'])
+                  metrics=['accuracy', 'mae', 'mse'])
 
-    model.fit(X, y, batch_size=32, epochs=1, validation_split=0.1)
+    history = model.fit(X, y, batch_size=250, epochs=1, validation_split=0.1)
+
+    pyplot.plot(history.history['mean_squared_error'])
+    pyplot.plot(history.history['mean_absolute_error'])
+    pyplot.plot(history.history['val_acc'])
+    pyplot.show()
+
+    print('****************************************************************' \
+          '****************************************************************' \
+          '****************************************************************' \
+          '****************************************************************' \
+          '****************************************************************' \
+          '****************************************************************' \
+          '****************************************************************' \
+          '****************************************************************' \
+          '****************************************************************')
+          
+
+
+    
